@@ -39,8 +39,8 @@ router.post('/', function (req, res) {
                 resolve(data);
             }
             else {
-                res.send({ code: 500, message: 'Incorrect Username and Password' });
-                reject();
+                // res.send({ code: 500, message: 'Incorrect Username and Password' })
+                reject('Incorrect Username and Password');
             }
         }).then((data) => {
             // Generate jwt
@@ -51,6 +51,8 @@ router.post('/', function (req, res) {
                 expiresIn: 60 * 60 * 24 * 7, // token expires in 1 week
             });
             res.send({ code: 1, message: 'Login Successfully', token: token });
+        }).catch((msg) => {
+            res.status(401).json({ error: msg });
         });
     })
         .catch((err) => {

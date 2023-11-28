@@ -44,8 +44,7 @@ router.post('/', function (req: any, res: any) {
         if (data) {
           resolve(data)
         } else {
-          res.send({ code: 500, message: 'Incorrect Username and Password' })
-          reject()
+          reject('Incorrect Username and Password')
         }
       }).then((data) => {
         // Generate jwt
@@ -58,7 +57,9 @@ router.post('/', function (req: any, res: any) {
         })
 
         res.send({ code: 1, message: 'Login Successfully', token: token })
-      })
+      }).catch((msg: any) => {
+        res.status(401).json({ error: msg });
+      });
     })
     .catch((err: any) => {
       if (err) {
