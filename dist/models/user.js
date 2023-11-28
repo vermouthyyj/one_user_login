@@ -6,5 +6,5 @@ const UserSchema = new mongoose_1.Schema({
     userpswd: String,
     logindate: Date,
 });
-const UserInfo = (0, mongoose_1.model)('UserInfo', UserSchema, 'user_info');
+const UserInfo = (0, mongoose_1.model)("UserInfo", UserSchema, "user_info");
 exports.default = UserInfo;

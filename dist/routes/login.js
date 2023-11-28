@@ -39,7 +39,6 @@ router.post('/', function (req, res) {
                 resolve(data);
             }
             else {
-                // res.send({ code: 500, message: 'Incorrect Username and Password' })
                 reject('Incorrect Username and Password');
             }
         }).then((data) => {

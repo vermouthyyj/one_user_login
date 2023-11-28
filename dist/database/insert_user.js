@@ -17,19 +17,19 @@ const insertData = () => __awaiter(void 0, void 0, void 0, function* () {
         yield (0, index_1.connect)();
         // Specify the database and collection
         const database = (0, index_1.getDb)();
-        const collection = database.collection('user_info');
+        const collection = database.collection("user_info");
         // Data to be inserted
         const dataToInsert = {
-            username: 'rachel_yan',
-            userpswd: (0, crypto_1.createHash)('md5').update('secure_password').digest('hex'),
+            username: "rachel_yan",
+            userpswd: (0, crypto_1.createHash)("md5").update("secure_password").digest("hex"),
             logindate: new Date(),
         };
         // Insert a single document
         const result = yield collection.insertOne(dataToInsert);
-        console.log('Successfully inserted:', result);
+        console.log("Successfully inserted:", result);
     }
     catch (error) {
-        console.error('Error inserting data:', error);
+        console.error("Error inserting data:", error);
     }
     finally {
         // Close the connection when done
