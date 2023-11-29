@@ -12,6 +12,19 @@ mongoose.connect(
   {},
 )
 
+// Dictionary to store user login attempts
+interface LoginAttempt {
+  attempts: number;
+  timestamps: number[];
+  locked?: boolean;
+}
+
+interface LoginAttemptsDictionary {
+  [username: string]: LoginAttempt;
+}
+
+const loginAttempts: LoginAttemptsDictionary = {};
+
 // Render login views
 router.get("/", function (req: any, res: any) {
   res.render("login")
@@ -26,6 +39,12 @@ router.post("/", function (req: any, res: any) {
   if (username == null || username.trim() == "" || password == null || password.trim() == null) {
     res.status(500).json({ error: "Username/Password cannot be empty" })
     return
+  }
+
+  // Check if the user is locked
+  if (loginAttempts[username] && loginAttempts[username].locked) {
+    res.status(401).json({ error: "Account locked. Please contact support." });
+    return;
   }
 
   // md5: hash password
@@ -55,6 +74,7 @@ router.post("/", function (req: any, res: any) {
           res.send({ code: 1, message: "Login Successfully", token: token })
         })
         .catch((msg: any) => {
+          trackFailedLogin(username);
           res.status(401).json({ error: msg })
         })
     })
@@ -65,5 +85,26 @@ router.post("/", function (req: any, res: any) {
       }
     })
 })
+
+function trackFailedLogin(username: string) {
+  const currentTimestamp = Math.floor(Date.now() / 1000);
+  if (!loginAttempts[username]) {
+    loginAttempts[username] = { attempts: 1, timestamps: [currentTimestamp] };
+  } else {
+    loginAttempts[username].attempts++;
+    loginAttempts[username].timestamps.push(currentTimestamp);
+
+    // Check if there are 3 or more failed attempts in the last 5 minutes
+    const recentAttempts = loginAttempts[username].timestamps.filter(
+      (timestamp) => currentTimestamp - timestamp <= 300
+    );
+
+    console.log("loginAttempts: ", loginAttempts);
+    if (recentAttempts.length >= 2) {
+      // Lock the user
+      loginAttempts[username].locked = true;
+    }
+  }
+}
 
 export default router
