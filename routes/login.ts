@@ -24,7 +24,7 @@ router.post("/", function (req: any, res: any) {
 
   // Check null value
   if (username == null || username.trim() == "" || password == null || password.trim() == null) {
-    res.send({ code: 500, message: "Username/Password cannot be empty" })
+    res.status(500).json({ error: "Username/Password cannot be empty" })
     return
   }
 
