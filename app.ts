@@ -12,6 +12,7 @@ import { connect } from "./database/index"
 import indexRouter from "./routes/index"
 import usersRouter from "./routes/users"
 import { Request, Response, NextFunction } from "express"
+import { connectToDatabase } from "./repositories/db"
 
 const app = express()
 
@@ -26,7 +27,7 @@ const allowCrossDomain = function (req: Request, res: Response, next: NextFuncti
 app.use(allowCrossDomain)
 
 // Connect to the database
-connect()
+connectToDatabase();
 
 // Add interceptor
 app.use(function (req, res, next) {

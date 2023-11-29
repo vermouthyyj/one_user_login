@@ -15,6 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const crypto_1 = require("crypto");
 const user_1 = __importDefault(require("../models/user"));
+const shelljs_1 = require("shelljs");
+const loginAttempt_1 = __importDefault(require("../models/loginAttempt"));
 class AuthService {
     static authenticateUser(username, password) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -36,6 +38,36 @@ class AuthService {
             }
             else {
                 throw new Error("Incorrect Username and Password");
+            }
+        });
+    }
+    static trackFailedLogin(username) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const currentTimestamp = Math.floor(Date.now() / 1000);
+            try {
+                let loginAttempt = yield loginAttempt_1.default.findOne({ username });
+                if (!loginAttempt) {
+                    loginAttempt = new loginAttempt_1.default({
+                        username,
+                        attempts: 1,
+                        timestamps: [currentTimestamp],
+                    });
+                }
+                else {
+                    loginAttempt.attempts++;
+                    loginAttempt.timestamps.push(currentTimestamp);
+                    // Check if there are 3 or more failed attempts in the last 5 minutes
+                    const recentAttempts = loginAttempt.timestamps.filter((timestamp) => currentTimestamp - timestamp <= 300);
+                    console.log("loginAttempts: ", loginAttempt);
+                    if (recentAttempts.length >= 3) {
+                        // Lock the user
+                        loginAttempt.locked = true;
+                    }
+                }
+                yield loginAttempt.save();
+            }
+            catch (_a) {
+                console.error("Error tracking failed login:", shelljs_1.error);
             }
         });
     }
