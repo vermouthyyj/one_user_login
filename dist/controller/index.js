@@ -16,11 +16,11 @@ class UserController {
         this.login = (req, res) => __awaiter(this, void 0, void 0, function* () {
             if (req.session.user) {
                 console.log(req.session.user);
-                res.render('index', { title: 'Express' });
+                res.render("index", { title: "Express" });
             }
             else {
-                req.session.error = 'Please login';
-                res.redirect('login');
+                req.session.error = "Please login";
+                res.redirect("login");
             }
         });
     }
