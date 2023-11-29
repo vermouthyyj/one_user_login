@@ -1,10 +1,10 @@
-import { connect, getDb, close } from "./index"
+import { getDb, close } from "./index"
 import { createHash } from "crypto"
 
 const insertData = async () => {
   try {
     // Connect to MongoDB
-    await connect()
+    // await connect()
 
     // Specify the database and collection
     const database = getDb()

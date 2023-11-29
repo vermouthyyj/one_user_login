@@ -14,7 +14,7 @@ const crypto_1 = require("crypto");
 const insertData = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Connect to MongoDB
-        yield (0, index_1.connect)();
+        // await connect()
         // Specify the database and collection
         const database = (0, index_1.getDb)();
         const collection = database.collection("user_info");

@@ -11,8 +11,9 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const morgan_1 = __importDefault(require("morgan"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const login_1 = __importDefault(require("./routes/login"));
+const index_1 = require("./database/index");
 // Import your custom routers
-const index_1 = __importDefault(require("./routes/index"));
+const index_2 = __importDefault(require("./routes/index"));
 const users_1 = __importDefault(require("./routes/users"));
 const app = (0, express_1.default)();
 const allowCrossDomain = function (req, res, next) {
@@ -24,6 +25,8 @@ const allowCrossDomain = function (req, res, next) {
     next();
 };
 app.use(allowCrossDomain);
+// Connect to the database
+(0, index_1.connect)();
 // Add interceptor
 app.use(function (req, res, next) {
     // Get Header - Authorization
@@ -58,7 +61,7 @@ app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
 app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.static(path_1.default.join(__dirname, "public")));
-app.use("/", index_1.default);
+app.use("/", index_2.default);
 app.use("/users", users_1.default);
 app.use("/login", login_1.default);
 // catch 404 and forward to error handler

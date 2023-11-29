@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser"
 import logger from "morgan"
 import jwt from "jsonwebtoken"
 import loginRouter from "./routes/login"
+import { connect } from "./database/index"
 
 // Import your custom routers
 import indexRouter from "./routes/index"
@@ -23,6 +24,9 @@ const allowCrossDomain = function (req: Request, res: Response, next: NextFuncti
   next()
 }
 app.use(allowCrossDomain)
+
+// Connect to the database
+connect()
 
 // Add interceptor
 app.use(function (req, res, next) {
