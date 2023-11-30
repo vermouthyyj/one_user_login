@@ -9,7 +9,7 @@ class UserController {
       res.render("index", { title: "Express" })
     } else {
       req.session.error = "Please login"
-      res.redirect("login")
+      res.redirect("/login")
     }
   }
 }

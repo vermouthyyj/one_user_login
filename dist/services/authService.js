@@ -58,7 +58,6 @@ class AuthService {
                     loginAttempt.timestamps.push(currentTimestamp);
                     // Check if there are 3 or more failed attempts in the last 5 minutes
                     const recentAttempts = loginAttempt.timestamps.filter((timestamp) => currentTimestamp - timestamp <= 300);
-                    console.log("loginAttempts: ", loginAttempt);
                     if (recentAttempts.length >= 3) {
                         // Lock the user
                         loginAttempt.locked = true;
