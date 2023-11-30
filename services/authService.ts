@@ -3,6 +3,7 @@ import { createHash } from "crypto"
 import UserInfo from "../models/user"
 import { error } from "shelljs"
 import LoginAttempt from "../models/loginAttempt"
+import UserRepository from "../repositories/userRepository"
 
 class AuthService {
   static async authenticateUser(username: string, password: string): Promise<string> {
@@ -57,6 +58,38 @@ class AuthService {
       await loginAttempt.save()
     } catch {
       console.error("Error tracking failed login:", error)
+    }
+  }
+
+  static async handleLoginRequest(username: string, password: string): Promise<any> {
+    try {
+      // Check null value
+      if (!username || !username.trim() || !password || !password.trim()) {
+        throw new Error("Username/Password cannot be empty")
+      }
+
+      // Check if the user is locked
+      const loginAttempt = await LoginAttempt.findOne({ username })
+
+      if (loginAttempt && loginAttempt.locked) {
+        throw new Error("Account locked. Please contact support.")
+      }
+
+      // md5: hash password
+      const md5String = createHash("md5").update(password).digest("hex")
+      const queryString = { username, userpswd: md5String }
+
+      const user = await UserRepository.findUser(queryString)
+
+      if (user) {
+        const token = await AuthService.authenticateUser(username, password)
+        return { code: 1, message: "Login Successfully", token }
+      } else {
+        await AuthService.trackFailedLogin(username)
+        throw new Error("Incorrect Username and Password")
+      }
+    } catch (error: any) {
+      throw new Error(error.message)
     }
   }
 }

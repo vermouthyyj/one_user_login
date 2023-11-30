@@ -17,6 +17,7 @@ const crypto_1 = require("crypto");
 const user_1 = __importDefault(require("../models/user"));
 const shelljs_1 = require("shelljs");
 const loginAttempt_1 = __importDefault(require("../models/loginAttempt"));
+const userRepository_1 = __importDefault(require("../repositories/userRepository"));
 class AuthService {
     static authenticateUser(username, password) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -67,6 +68,36 @@ class AuthService {
             }
             catch (_a) {
                 console.error("Error tracking failed login:", shelljs_1.error);
+            }
+        });
+    }
+    static handleLoginRequest(username, password) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                // Check null value
+                if (!username || !username.trim() || !password || !password.trim()) {
+                    throw new Error("Username/Password cannot be empty");
+                }
+                // Check if the user is locked
+                const loginAttempt = yield loginAttempt_1.default.findOne({ username });
+                if (loginAttempt && loginAttempt.locked) {
+                    throw new Error("Account locked. Please contact support.");
+                }
+                // md5: hash password
+                const md5String = (0, crypto_1.createHash)("md5").update(password).digest("hex");
+                const queryString = { username, userpswd: md5String };
+                const user = yield userRepository_1.default.findUser(queryString);
+                if (user) {
+                    const token = yield AuthService.authenticateUser(username, password);
+                    return { code: 1, message: "Login Successfully", token };
+                }
+                else {
+                    yield AuthService.trackFailedLogin(username);
+                    throw new Error("Incorrect Username and Password");
+                }
+            }
+            catch (error) {
+                throw new Error(error.message);
             }
         });
     }
