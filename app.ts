@@ -27,7 +27,7 @@ const allowCrossDomain = function (req: Request, res: Response, next: NextFuncti
 app.use(allowCrossDomain)
 
 // Connect to the database
-connectToDatabase();
+connectToDatabase()
 
 // Add interceptor
 app.use(function (req, res, next) {

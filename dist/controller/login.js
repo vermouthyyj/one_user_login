@@ -17,7 +17,7 @@ exports.loginController = void 0;
 const authService_1 = __importDefault(require("../services/authService"));
 class LoginController {
     renderLoginPage(req, res) {
-        res.render('login');
+        res.render("login");
     }
     handleLoginRequest(req, res) {
         return __awaiter(this, void 0, void 0, function* () {

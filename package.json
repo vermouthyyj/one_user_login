@@ -9,7 +9,8 @@
     "build": "npm run ts-build && npm run copy-static",
     "lint": "eslint . --fix",
     "precommit": "lint-staged",
-    "test": "jest"
+    "test": "jest",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
