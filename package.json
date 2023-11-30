@@ -9,7 +9,7 @@
     "build": "npm run ts-build && npm run copy-static",
     "lint": "eslint . --fix",
     "precommit": "lint-staged",
-    "test": "jest",
+    "test": "jest --detectOpenHandles --runInBand",
     "format": "prettier --write ."
   },
   "dependencies": {
@@ -65,5 +65,8 @@
       "eslint --fix",
       "git add"
     ]
+  },
+  "engines": {
+    "node": ">=14.0.0"
   }
 }

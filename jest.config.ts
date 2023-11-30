@@ -1,7 +1,10 @@
 module.exports = {
   preset: "ts-jest",
   testEnvironment: "node",
-  roots: ["<rootDir>/controller", "<rootDir>/services", "<rootDir>/repositories"],
-  // Other configurations...
-  testMatch: ["**/__test__/*.test.ts"],
+  roots: [
+    "<rootDir>/controller/__test__",
+    "<rootDir>/services/__test__",
+    "<rootDir>/repositories/__test__",
+  ],
+  testMatch: ["**/*.test.ts"],
 }
