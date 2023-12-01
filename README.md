@@ -15,6 +15,10 @@ Mainly uses modules: `mongoose`, `express-session`, `body-parser`
 
 Use `express-generator` to generate the skeleton code of an express project.
 
+## Demo
+
+https://www.youtube.com/watch?v=rzusT6767y8
+
 ## How to run
 
 ### Build js(commonjs) based on ts
