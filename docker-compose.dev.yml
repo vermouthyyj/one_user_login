@@ -4,10 +4,13 @@ services:
   api:
     build:
       context: .
-      target: production
-
+      target: development
+    volumes:
+      - ./:/app
+      - /app/node_modules
     ports:
       - 3000:3000
+    command: npm run dev
   mongodb:
     image: mongo:latest
     ports:

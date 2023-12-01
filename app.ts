@@ -13,11 +13,18 @@ import indexRouter from "./routes/index"
 import usersRouter from "./routes/users"
 import { Request, Response, NextFunction } from "express"
 import { connectToDatabase } from "./repositories/db"
+import session from "express-session"
 
 const app = express()
 
+app.use(session({
+  secret: 'secretKey',
+  resave: false,
+  saveUninitialized: true,
+}));
+
 const allowCrossDomain = function (req: Request, res: Response, next: NextFunction) {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000")
+  res.header("Access-Control-Allow-Origin", "*")
   res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS")
   res.header("Access-Control-Allow-Headers", "content-type,token,id")
   res.header("Access-Control-Request-Headers", "content-Type, Authorization")

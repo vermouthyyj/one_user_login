@@ -15,9 +15,15 @@ const login_1 = __importDefault(require("./routes/login"));
 const index_1 = __importDefault(require("./routes/index"));
 const users_1 = __importDefault(require("./routes/users"));
 const db_1 = require("./repositories/db");
+const express_session_1 = __importDefault(require("express-session"));
 const app = (0, express_1.default)();
+app.use((0, express_session_1.default)({
+    secret: 'secretKey',
+    resave: false,
+    saveUninitialized: true,
+}));
 const allowCrossDomain = function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+    res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
     res.header("Access-Control-Allow-Headers", "content-type,token,id");
     res.header("Access-Control-Request-Headers", "content-Type, Authorization");
