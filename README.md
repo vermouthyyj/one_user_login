@@ -15,6 +15,20 @@ Mainly uses modules: `mongoose`, `express-session`, `body-parser`
 
 Use `express-generator` to generate the skeleton code of an express project.
 
+## How to run
+
+### Build js(commonjs) based on ts
+
+```
+npm run build
+```
+
+### Run the project locally
+
+```
+npm run start
+```
+
 ## Database
 
 ### Connecting with MongoDB Driver
@@ -46,3 +60,19 @@ Connection closed
 
 - sets up Husky to run `lint-staged` before each commit
 - specifies that for files matching the specified patterns `*.{js,jsx,ts,tsx}`
+
+## Testing Strategy
+
+### Unit Test
+
+#### How to run
+
+```
+npm run test:unit
+```
+
+### Integration Test
+
+```
+npm run test:integration
+```
