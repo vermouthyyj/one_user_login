@@ -9,7 +9,9 @@
     "build": "npm run ts-build && npm run copy-static",
     "lint": "eslint . --fix",
     "precommit": "lint-staged",
-    "test": "jest --detectOpenHandles --runInBand",
+    "test:unit": "jest --config=unit-test.jest.config.ts",
+    "test:integration": "jest --config=integration-test.jest.config.ts --detectOpenHandles",
+    "test": "npm run test:unit && npm run test:integration",
     "format": "prettier --write ."
   },
   "dependencies": {
