@@ -14,14 +14,17 @@ const crypto_1 = require("crypto");
 const insertData = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Connect to MongoDB
-        // await connect()
+        yield (0, index_1.connect)();
         // Specify the database and collection
         const database = (0, index_1.getDb)();
         const collection = database.collection("user_info");
+        // Process command-line arguments
+        const username = process.argv[2] || "default_username";
+        const password = process.argv[3] || "default_password";
         // Data to be inserted
         const dataToInsert = {
-            username: "rachel_yan",
-            userpswd: (0, crypto_1.createHash)("md5").update("secure_password").digest("hex"),
+            username: username,
+            userpswd: (0, crypto_1.createHash)("md5").update(password).digest("hex"),
             logindate: new Date(),
         };
         // Insert a single document

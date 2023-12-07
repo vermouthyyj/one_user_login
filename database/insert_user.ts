@@ -1,19 +1,22 @@
-import { getDb, close } from "./index"
+import { getDb, close, connect } from "./index"
 import { createHash } from "crypto"
 
 const insertData = async () => {
   try {
     // Connect to MongoDB
-    // await connect()
+    await connect()
 
     // Specify the database and collection
     const database = getDb()
     const collection = database.collection("user_info")
 
+    // Process command-line arguments
+    const username = process.argv[2] || "default_username"
+    const password = process.argv[3] || "default_password"
     // Data to be inserted
     const dataToInsert = {
-      username: "rachel_yan",
-      userpswd: createHash("md5").update("secure_password").digest("hex"),
+      username: username,
+      userpswd: createHash("md5").update(password).digest("hex"),
       logindate: new Date(),
     }
 

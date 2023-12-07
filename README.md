@@ -21,6 +21,12 @@ https://www.youtube.com/watch?v=rzusT6767y8
 
 ## How to run
 
+### Install all dependencies listed in the `package.json` file
+
+```
+npm install
+```
+
 ### Build js(commonjs) based on ts
 
 ```
@@ -35,7 +41,7 @@ npm run start
 
 ## Database
 
-### Connecting with MongoDB Driver
+### Connecting with MongoDB Driver and insert a new user
 
 Install your driver
 
@@ -46,7 +52,7 @@ npm install mongodb
 Add your connection string into your application code, and insert hard code data to db
 
 ```
-node path/to/insert_user.js
+node path/to/insert_user.js <inserted_username> <inserted_password>
 ```
 
 Then will give log the new created user information that insert to user_service.user_info if it is connected to the MongoDB Driver successfully.
