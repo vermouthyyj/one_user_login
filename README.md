@@ -39,6 +39,8 @@ npm run build
 npm run start
 ```
 
+### Open the simple login ui `index.html` to test the RESTful API
+
 ## Database
 
 ### Connecting with MongoDB Driver and insert a new user
